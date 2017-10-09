@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_sort_types">
+        <item>Alphabetical by Name</item>
+        <item>Cost - Increasing</item>
+        <item>Cost - Decreasing</item>
+    </string-array>
+
+    <string-array name="pref_sort_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="pref_sort_type_default">
+
+    </string-array>
+</resources>
