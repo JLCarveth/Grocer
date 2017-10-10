@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-# Grocer TODO List
-  
-### Visual Changes
-- [ ] Change the list item layout so the Name TextView is centered vertically if the entry has no note.
-- [ ]
-
-### Functional Changes
-- [ ] Disable long press to drag in favor of a long press action to trigger a Fragment where the user can edit the entry.
-- [ ] Implement an optional cost field to the AddDialog.
-- [ ] Store and update the entry's checked field in the database
-- [ ] Establish the Settings Fragment (See section below)
-=======
 # Grocer TODO
   
 ### Visual Changes
@@ -19,7 +6,7 @@
 
 ### Functional Changes
 - [ ] Disable long press to drag in favor of a long press action to trigger a Fragment where the user can edit the entry.
-- [ ] Implement an optional cost field to the AddDialog.
+- [ ] Implement an optional quantity field to the AddDialog / Database
 - [ ] Store and update the entry's checked field in the database
 - [ ] Establish the Settings Fragment (See section below)
 - [ ] Add bug reporter to option menu - Opens new fragment
@@ -31,4 +18,3 @@
 | ------------ | --------------- | -------- | ----- |
 | pref_enable_loc | CheckBoxPreference | N/A | When enabled, allows location services. Used for quick launching if at grocery store. |
 | pref_enable_clear_checked | CheckboxPreference | N/A | When enabled, deletes checked entries on reload / sort. |
->>>>>>> e077c8ddcace9704cae6dcfac5916fc65114a618
