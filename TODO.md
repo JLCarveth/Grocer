@@ -1,4 +1,4 @@
-# Grocer TODO List
+# Grocer TODO
   
 ### Visual Changes
 - [ ] Change the list item layout so the Name TextView is centered vertically if the entry has no note.
