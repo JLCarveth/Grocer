@@ -17,7 +17,7 @@ import com.github.jlcarveth.grocer.model.GroceryContract;
 public class StorageHandler extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "grocerdb";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public StorageHandler(Context context) {
         super(context,DB_NAME,null,DB_VERSION);

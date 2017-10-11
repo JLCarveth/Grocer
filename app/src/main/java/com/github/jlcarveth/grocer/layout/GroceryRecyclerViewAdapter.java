@@ -139,6 +139,7 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     // Change the value in the list
                     mValues.get(getAdapterPosition()).setChecked(isChecked);
+                    dataHandler.checkEntry(mValues.get(getAdapterPosition()));
                 }
             });
         }

@@ -47,9 +47,14 @@ public class DataHandler {
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_NAME));
             String note = cursor.getString(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_NOTE));
+            String qty = cursor.getString(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_QTY));
             int cost = cursor.getInt(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_COST));
+            int checked = cursor.getInt(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_CHKD));
 
-            GroceryItem temp = new GroceryItem(name, note, cost);
+            boolean chk = (checked == 1) ? true : false;
+
+            GroceryItem temp = new GroceryItem(name, note, qty, cost, chk);
+            temp.setCost(cost);
             data.add(temp);
 
             System.out.println(temp + " retrieved from table.");
@@ -90,9 +95,13 @@ public class DataHandler {
             cursor.moveToFirst();
             String dbName = cursor.getString(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_NAME));
             String dbNote = cursor.getString(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_NOTE));
+            String dbQty = cursor.getString(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_QTY));
             int dbCost = cursor.getInt(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_COST));
+            int dbChk = cursor.getInt(cursor.getColumnIndexOrThrow(GroceryContract.GroceryEntry.COLUMN_CHKD));
 
-            GroceryItem gi = new GroceryItem(dbName,dbNote,dbCost);
+            boolean checked = (dbChk == 1) ? true : false;
+
+            GroceryItem gi = new GroceryItem(dbName,dbNote,dbQty,dbCost,checked);
             return gi;
         }
         throw new NoSuchElementException("Element with such name was not found within the database.");
@@ -105,7 +114,11 @@ public class DataHandler {
 
         values.put(GroceryContract.GroceryEntry.COLUMN_NAME, item.getName());
         values.put(GroceryContract.GroceryEntry.COLUMN_NOTE, item.getNote());
+        values.put(GroceryContract.GroceryEntry.COLUMN_QTY, item.getQty());
         values.put(GroceryContract.GroceryEntry.COLUMN_COST, item.getCost());
+        //SQlite doesn't support booleans directly. Convert to int.
+        values.put(GroceryContract.GroceryEntry.COLUMN_CHKD, (item.isChecked()) ? 1 : 0);
+
 
         long newRow = databaseWritable.insert(
                 GroceryContract.GroceryEntry.TABLE_NAME,    // Table Name
@@ -143,6 +156,7 @@ public class DataHandler {
 
             if (item.isChecked()) {
                 data.remove(i);
+                removeEntry(item);
             }
         }
 
@@ -151,5 +165,32 @@ public class DataHandler {
 
         System.out.println("After Sort: " + data.toString());
         return data;
+    }
+
+    /**
+     * Returns true if an row in the DB had its checked value changed.
+     * @param groceryItem the entry to check or uncheck
+     * @return true if a row was changed by this function.
+     */
+    public boolean checkEntry(GroceryItem groceryItem) {
+        System.out.println(groceryItem);
+        ContentValues values = new ContentValues();
+        //values.put(GroceryContract.GroceryEntry.COLUMN_NAME, groceryItem.getName());
+        //values.put(GroceryContract.GroceryEntry.COLUMN_NOTE, groceryItem.getNote());
+        //values.put(GroceryContract.GroceryEntry.COLUMN_QTY, groceryItem.getQty());
+        //values.put(GroceryContract.GroceryEntry.COLUMN_COST, groceryItem.getCost());
+
+        //When this method is called, the check state is inverted.
+        //boolean itemChk = groceryItem.isChecked();
+        //itemChk = !itemChk;
+
+        values.put(GroceryContract.GroceryEntry.COLUMN_CHKD, (groceryItem.isChecked()) ? 1 : 0);
+
+        int updateFlag = databaseWritable.update(GroceryContract.GroceryEntry.TABLE_NAME,
+                values,
+                "name=" + "'"+groceryItem.getName()+"'",
+                null);
+
+        return (updateFlag > 0);
     }
 }
