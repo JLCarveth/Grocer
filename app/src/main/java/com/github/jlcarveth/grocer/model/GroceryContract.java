@@ -14,13 +14,17 @@ public final class GroceryContract {
         public static final String TABLE_NAME = "groceries";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_NOTE = "note";
+        public static final String COLUMN_QTY = "quantity";
         public static final String COLUMN_COST = "cost";
+        public static final String COLUMN_CHKD = "checked";
 
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + GroceryEntry.TABLE_NAME + " (" +
                         GroceryEntry._ID + " INTEGER PRIMARY KEY," +
                         GroceryEntry.COLUMN_NAME + " TEXT," +
                         GroceryEntry.COLUMN_NOTE + " TEXT," +
+                        GroceryEntry.COLUMN_QTY  + " TEXT," +
+                        GroceryEntry.COLUMN_CHKD + " INT," +
                         GroceryEntry.COLUMN_COST + " INT)";
 
         public static final String SQL_DELETE_ENTRIES =

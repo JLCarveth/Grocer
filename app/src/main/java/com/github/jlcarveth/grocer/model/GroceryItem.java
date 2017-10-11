@@ -13,6 +13,8 @@ public class GroceryItem implements Comparable<GroceryItem> {
 
     private String note;
 
+    private String qty;
+
     private int cost;
 
     private boolean checked;
@@ -21,14 +23,24 @@ public class GroceryItem implements Comparable<GroceryItem> {
         this.name = name;
         this.note = note;
         cost = -1;
+        qty = "";
         checked = false;
     }
 
-    public GroceryItem(String name, String note, int cost) {
+    public GroceryItem(String name, String note, String qty) {
         this.name = name;
         this.note = note;
-        this.cost = cost;
+        this.qty = qty;
+        cost = -1;
         checked = false;
+    }
+
+    public GroceryItem(String name, String note, String qty, int cost, boolean c) {
+        this.name = name;
+        this.note = note;
+        this.qty = qty;
+        this.cost = cost;
+        checked = c;
     }
 
     public String getName() {
@@ -61,6 +73,14 @@ public class GroceryItem implements Comparable<GroceryItem> {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
     }
 
     public String toString() {
