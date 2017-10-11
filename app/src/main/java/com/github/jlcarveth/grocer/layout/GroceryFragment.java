@@ -164,7 +164,7 @@ public class GroceryFragment extends Fragment implements FragmentEventListener, 
         // Must be done this way.
         dataset.clear();
         dataset.addAll(dataHandler.getGroceryList());
-        dataHandler.sortGroceryList(dataset);
+        //dataHandler.sortGroceryList(dataset);
 
         adapter.notifyDataSetChanged();
     }

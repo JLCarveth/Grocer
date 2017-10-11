@@ -114,7 +114,8 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
         notifyItemRemoved(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder,
+    View.OnLongClickListener {
         public final View mView;
         public final TextView mNameView;
         public final TextView mNoteView;
@@ -157,6 +158,12 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
         @Override
         public String toString() {
             return super.toString() + " '" + mNameView.getText() + "'";
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            //Inflate the dialog fragment
+            return false;
         }
     }
 }
