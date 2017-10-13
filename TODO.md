@@ -2,10 +2,12 @@
   
 ### Visual Changes
 - [ ] Change the list item layout so the Name TextView is centered vertically if the entry has no note / quantity.
+- [ ] Add quantity to item layout.
+- [ ] Move FAB so it doesn't block checkbox of bottom list items.
 - [ ] Move sort button from menu to own button in ActionBar / Toolbar (Button triggers dropdown of sort-types)
 
 ### Functional Changes
-- [ ] Disable long press to drag in favor of a long press action to trigger a Fragment where the user can edit the entry.
+- [x] Disable long press to drag in favor of a long press action to trigger a Fragment where the user can edit the entry.
 - [x] Implement an optional quantity field to the AddDialog / Database
 - [ ] Disallow adding entries with no name, Input validation in general
 - [x] Store and update the entry's checked field in the database
