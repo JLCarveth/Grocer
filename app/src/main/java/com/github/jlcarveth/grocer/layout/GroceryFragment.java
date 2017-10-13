@@ -155,7 +155,6 @@ public class GroceryFragment extends Fragment implements FragmentEventListener, 
         ith.startDrag(viewHolder);
     }
 
-
     /**
      * Called whenever data has been changed in the DB
      */

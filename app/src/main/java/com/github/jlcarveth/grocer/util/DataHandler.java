@@ -127,6 +127,21 @@ public class DataHandler {
                 values);                                    // The values being inserted
     }
 
+    public boolean updateGroceryItem(String oldItem, GroceryItem newItem) {
+        System.out.println("Updating," + oldItem + newItem.getName() + newItem.getNote());
+        ContentValues values = new ContentValues();
+
+        values.put(GroceryContract.GroceryEntry.COLUMN_NAME, newItem.getName());
+        values.put(GroceryContract.GroceryEntry.COLUMN_NOTE, newItem.getNote());
+        //values.put(GroceryContract.GroceryEntry.COLUMN_QTY, item.getQty());
+
+        int updateFlag = databaseWritable.update(GroceryContract.GroceryEntry.TABLE_NAME,
+                values,
+                GroceryContract.GroceryEntry.COLUMN_NAME + "=" + "'" + oldItem + "'",
+                null);
+        return updateFlag > 0;
+    }
+
     /**
      * Searches the DB for the equivalent item, and removes it if it exists.
      * @param groceryItem the item to remove from the SQLite DB
@@ -134,7 +149,7 @@ public class DataHandler {
      */
     public boolean removeEntry(GroceryItem groceryItem) {
         int removalFlag = databaseWritable.delete(GroceryContract.GroceryEntry.TABLE_NAME,
-                GroceryContract.GroceryEntry.COLUMN_NAME + '=' + "'" + groceryItem.getName() + "'", null);
+                "name=" + "'" + groceryItem.getName() + "'", null);
 
         // database.delete returns the number of rows affected, 0 if no rows are affected.
         return (removalFlag > 0);

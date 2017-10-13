@@ -2,6 +2,8 @@ package com.github.jlcarveth.grocer.layout;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -114,8 +116,8 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
         notifyItemRemoved(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder,
-    View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+        
         public final View mView;
         public final TextView mNameView;
         public final TextView mNoteView;
@@ -143,6 +145,23 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
                     dataHandler.checkEntry(mValues.get(getAdapterPosition()));
                 }
             });
+
+            mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    //Create a new EditDialogFragment object
+                    EditDialogFragment edf = new EditDialogFragment();
+
+                    Bundle args = new Bundle();
+                    args.putCharSequence("name", mNameView.getText().toString());
+                    args.putCharSequence("note", mNoteView.getText().toString());
+
+                    edf.setArguments(args);
+                    edf.show(fragment.getFragmentManager(), "EDIT_DIAG");
+
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -160,10 +179,5 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
             return super.toString() + " '" + mNameView.getText() + "'";
         }
 
-        @Override
-        public boolean onLongClick(View view) {
-            //Inflate the dialog fragment
-            return false;
-        }
     }
 }
