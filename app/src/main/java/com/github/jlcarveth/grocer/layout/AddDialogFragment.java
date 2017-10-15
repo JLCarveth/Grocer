@@ -27,93 +27,58 @@ import org.w3c.dom.Text;
  * DialogFragment for handling user input to the DB
  * Presents a form to the user.
  */
-public class AddDialogFragment extends DialogFragment {
+public class AddDialogFragment extends InputDialogFragment {
 
-    private EditText nameField, noteField, qtyField;
+    public EditText nameField, noteField, qtyField;
 
-    private StorageHandler storageHandler;
+    public DataHandler dataHandler;
 
-    private DataHandler dataHandler;
+    public FragmentEventListener fragmentEventListener;
 
-    private FragmentEventListener fragmentEventListener;
+    public String message;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View view = inflater.inflate(R.layout.fragment_add_dialog, null);
+        AlertDialog dialog = (AlertDialog) super.onCreateDialog(savedInstanceState);
+        message = "Add an Item";
 
-        // Attaches the Fragment event listener to the Dialog
-        fragmentEventListener = (FragmentEventListener) getActivity()
-                .getSupportFragmentManager()
-                .findFragmentByTag("GROCERY");
+        nameField = super.getNameField();
+        noteField = super.getNoteField();
+        qtyField = super.getQtyField();
 
-        nameField = view.findViewById(R.id.ad_name_input);
-        noteField = view.findViewById(R.id.ad_note_input);
-        qtyField = view.findViewById(R.id.ad_qty_input);
+        dataHandler = super.getDataHandler();
 
-        storageHandler = new StorageHandler(getContext());
-        dataHandler = new DataHandler(storageHandler);
+        fragmentEventListener = super.getFragmentEventListener();
 
-
-        // Use the Builder class for convenient dialog construction
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(view);
-        builder.setCancelable(false);
-
-        builder.setMessage("Add an Item.")
-                .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                });
-
-        // Create the AlertDialog object and return it
-        return builder.create();
+        return dialog;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+    }
 
-        final AlertDialog dialog = (AlertDialog) getDialog();
+    @Override
+    public void positiveAction(AlertDialog dialog) {
+        String name = nameField.getText().toString().trim();
+        String note = noteField.getText().toString().trim();
+        String qty = qtyField.getText().toString().trim();
 
-        if (dialog != null) {
-            System.out.println("Not null atleast");
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+        System.out.println("This has been called."+nameField.getText().length());
+        if (!TextUtils.isEmpty(name)) {
+            System.out.println("Not Empty.");
 
-                @Override
-                public void onClick(View view) {
-                    String name = nameField.getText().toString().trim();
-                    String note = noteField.getText().toString().trim();
-                    String qty = qtyField.getText().toString().trim();
+            GroceryItem gi = new GroceryItem(name,note,qty);
 
-                    System.out.println("This has been called."+nameField.getText().length());
-                    if (!TextUtils.isEmpty(name)) {
-                        System.out.println("Not Empty.");
+            dataHandler.insertGroceryItem(gi);
 
-                        GroceryItem gi = new GroceryItem(name,note,qty);
-
-                        dataHandler.insertGroceryItem(gi);
-
-                        fragmentEventListener.updateData();
-                        dialog.dismiss();
-                    } else {
-                        System.out.println("Empty");
-                        //dialog.dismiss();
-                        dialog.show();
-                        dialog.setMessage("Name field cannot be empty.");
-                    }
-                }
-            });
-        } else { System.out.println("Null I guess"); }
+            fragmentEventListener.updateData();
+            dialog.dismiss();
+        } else {
+            System.out.println("Empty");
+            //dialog.dismiss();
+            dialog.show();
+            dialog.setMessage("Name field cannot be empty.");
+        }
     }
 }

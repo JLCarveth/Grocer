@@ -140,12 +140,13 @@ public class DataHandler {
         if (newItem.getName().isEmpty()) {
             throw new IllegalArgumentException("GroceryItem name field cannot be empty.");
         }
-        System.out.println("Updating," + oldItem + newItem.getName() + newItem.getNote());
+        System.out.println("Updating," + oldItem + newItem.getName() +
+                newItem.getNote() + newItem.getQty());
         ContentValues values = new ContentValues();
 
         values.put(GroceryContract.GroceryEntry.COLUMN_NAME, newItem.getName());
         values.put(GroceryContract.GroceryEntry.COLUMN_NOTE, newItem.getNote());
-        //values.put(GroceryContract.GroceryEntry.COLUMN_QTY, item.getQty());
+        values.put(GroceryContract.GroceryEntry.COLUMN_QTY, newItem.getQty());
 
         int updateFlag = databaseWritable.update(GroceryContract.GroceryEntry.TABLE_NAME,
                 values,
