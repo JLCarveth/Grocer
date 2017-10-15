@@ -3,6 +3,7 @@ package com.github.jlcarveth.grocer.util;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.github.jlcarveth.grocer.model.GroceryContract;
 import com.github.jlcarveth.grocer.model.GroceryItem;
@@ -62,6 +63,10 @@ public class DataHandler {
         return data;
     }
 
+    public void clearGroceryList() {
+        databaseWritable.delete(GroceryContract.GroceryEntry.TABLE_NAME, null, null);
+    }
+
     /**
      * Helpful method for inserting a List into the DB
      * @param data the data to be inserted into the DB
@@ -108,7 +113,10 @@ public class DataHandler {
 
     }
 
-    public void insertGroceryItem(GroceryItem item) {
+    public void insertGroceryItem(GroceryItem item) throws IllegalArgumentException {
+        if (TextUtils.isEmpty(item.getName())) {
+            throw new IllegalArgumentException("GroceryItem name field cannot be empty.");
+        }
         System.out.println("Insert has been called...");
         ContentValues values = new ContentValues();
 
@@ -127,6 +135,25 @@ public class DataHandler {
                 values);                                    // The values being inserted
     }
 
+    public boolean updateGroceryItem(String oldItem, GroceryItem newItem)
+            throws IllegalArgumentException {
+        if (newItem.getName().isEmpty()) {
+            throw new IllegalArgumentException("GroceryItem name field cannot be empty.");
+        }
+        System.out.println("Updating," + oldItem + newItem.getName() + newItem.getNote());
+        ContentValues values = new ContentValues();
+
+        values.put(GroceryContract.GroceryEntry.COLUMN_NAME, newItem.getName());
+        values.put(GroceryContract.GroceryEntry.COLUMN_NOTE, newItem.getNote());
+        //values.put(GroceryContract.GroceryEntry.COLUMN_QTY, item.getQty());
+
+        int updateFlag = databaseWritable.update(GroceryContract.GroceryEntry.TABLE_NAME,
+                values,
+                GroceryContract.GroceryEntry.COLUMN_NAME + "=" + "'" + oldItem + "'",
+                null);
+        return updateFlag > 0;
+    }
+
     /**
      * Searches the DB for the equivalent item, and removes it if it exists.
      * @param groceryItem the item to remove from the SQLite DB
@@ -134,7 +161,7 @@ public class DataHandler {
      */
     public boolean removeEntry(GroceryItem groceryItem) {
         int removalFlag = databaseWritable.delete(GroceryContract.GroceryEntry.TABLE_NAME,
-                GroceryContract.GroceryEntry.COLUMN_NAME + '=' + "'" + groceryItem.getName() + "'", null);
+                "name=" + "'" + groceryItem.getName() + "'", null);
 
         // database.delete returns the number of rows affected, 0 if no rows are affected.
         return (removalFlag > 0);
@@ -148,8 +175,6 @@ public class DataHandler {
         if (data.isEmpty()) {
             return data;
         }
-        System.out.println("Sorting Called.");
-        System.out.println("Before Sort: " + data.toString());
 
         for (int i=0; i < data.size(); i++) {
             GroceryItem item = data.get(i);
@@ -163,7 +188,6 @@ public class DataHandler {
         //Temp to clear errors
         Collections.sort(data);
 
-        System.out.println("After Sort: " + data.toString());
         return data;
     }
 

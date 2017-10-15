@@ -141,10 +141,15 @@ public class MainActivity extends AppCompatActivity
             List list = dataHandler.getGroceryList();
 
             list = dataHandler.sortGroceryList(list);
+            System.out.println("Sorted: " + list.toString());
+
+            dataHandler.clearGroceryList();
+            dataHandler.addGroceryList(list);
 
             GroceryFragment fragment = (GroceryFragment) fm.findFragmentByTag(FragmentType.GROCERY.getTag());
 
             if (fragment != null && fragment.isVisible()) {
+                System.out.println("UpdateData called");
                 fragment.updateData();
             }
 
