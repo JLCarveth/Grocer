@@ -8,6 +8,7 @@
 
 ### Functional Changes
 - [x] Disable long press to drag in favor of a long press action to trigger a Fragment where the user can edit the entry.
+- [x] Solve repetition in the two DialogFragment classes
 - [x] Implement an optional quantity field to the AddDialog / Database
 - [x] Disallow adding entries with no name, Input validation in general
 - [x] Store and update the entry's checked field in the database
