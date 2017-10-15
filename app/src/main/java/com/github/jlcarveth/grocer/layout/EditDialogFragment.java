@@ -23,72 +23,60 @@ import com.github.jlcarveth.grocer.util.StorageHandler;
  * Similar to the AddDialogFragment. Presents a dialog to the user allowing them to edit the
  * selected item. Input is then sent to DB and the row is updated.
  */
-public class EditDialogFragment extends DialogFragment {
+public class EditDialogFragment extends InputDialogFragment {
 
-    private EditText nameField, noteField, qtyField;
+    public EditText nameField, noteField, qtyField;
 
-    private StorageHandler storageHandler;
+    public DataHandler dataHandler;
 
-    private DataHandler dataHandler;
-
-    private FragmentEventListener fragmentEventListener;
+    public FragmentEventListener fragmentEventListener;
 
     /**
      * The item whose data is used to fill the fields
      */
     private GroceryItem groceryItem;
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        // Layout is the same as AddDialogFragment
-        View view = inflater.inflate(R.layout.fragment_edit_dialog, null);
+        AlertDialog dialog = (AlertDialog) super.onCreateDialog(savedInstanceState);
+        message = "Edit an Item.";
+        dialog.setMessage(message);
 
-        fragmentEventListener = (FragmentEventListener) getActivity()
-                .getSupportFragmentManager()
-                .findFragmentByTag("GROCERY");
+        nameField = super.getNameField();
+        noteField = super.getNoteField();
+        qtyField = super.getQtyField();
 
-        nameField = view.findViewById(R.id.ad_name_input);
-        noteField = view.findViewById(R.id.ad_note_input);
-        qtyField = view.findViewById(R.id.ad_qty_input);
+        dataHandler = super.getDataHandler();
 
-        storageHandler = new StorageHandler(getContext());
-        dataHandler = new DataHandler(storageHandler);
+        fragmentEventListener = super.getFragmentEventListener();
 
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        nameField.setText((String) getArguments().get("name"));
+        noteField.setText((String) getArguments().get("note"));
+        qtyField.setText((String) getArguments().get("qty"));
 
-        Bundle args = getArguments();
-        final String oldName = (String) args.get("name");
-        nameField.setText((String)args.get("name"));
-        noteField.setText((String)args.get("note"));
+        return dialog;
+    }
 
-        // Don't forget to update the DB data as well.
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
-        builder.setView(view);
+    @Override
+    public void positiveAction(AlertDialog dialog) {
+        // Old name for DB updating
+        String oldName = (String) getArguments().get("name");
+        // Add the data here
+        String name = nameField.getText().toString();
+        String note = noteField.getText().toString();
+        String qty = qtyField.getText().toString();
 
-        builder.setMessage("Message")
-                .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        System.out.println(id);
-                        // Add the data here
-                        String name = nameField.getText().toString();
-                        String note = noteField.getText().toString();
+        GroceryItem temp = new GroceryItem(name, note, qty);
 
-                        GroceryItem temp = new GroceryItem(name, note);
+        dataHandler.updateGroceryItem(oldName, temp);
 
-                        dataHandler.updateGroceryItem(oldName, temp);
+        // Update the GroceryFragment list.
+        fragmentEventListener.updateData();
 
-                        // Update the GroceryFragment list.
-                        fragmentEventListener.updateData();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        // Create the AlertDialog object and return it
-        return builder.create();
+        dialog.dismiss();
     }
 }

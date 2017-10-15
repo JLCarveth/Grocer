@@ -128,6 +128,8 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
 
         public GroceryItem mItem;
 
+        public Bundle args;
+
         public ViewHolder(View view) {
             super(view);
             mView = view;
@@ -151,11 +153,10 @@ public class GroceryRecyclerViewAdapter extends RecyclerView.Adapter<GroceryRecy
                 public boolean onLongClick(View view) {
                     //Create a new EditDialogFragment object
                     EditDialogFragment edf = new EditDialogFragment();
-
-                    Bundle args = new Bundle();
+                    args = new Bundle();
                     args.putCharSequence("name", mNameView.getText().toString());
                     args.putCharSequence("note", mNoteView.getText().toString());
-
+                    args.putCharSequence("qty", mValues.get(getAdapterPosition()).getQty());
                     edf.setArguments(args);
                     edf.show(fragment.getFragmentManager(), "EDIT_DIAG");
 
