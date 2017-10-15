@@ -3,6 +3,7 @@ package com.github.jlcarveth.grocer.util;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.github.jlcarveth.grocer.model.GroceryContract;
 import com.github.jlcarveth.grocer.model.GroceryItem;
@@ -112,7 +113,10 @@ public class DataHandler {
 
     }
 
-    public void insertGroceryItem(GroceryItem item) {
+    public void insertGroceryItem(GroceryItem item) throws IllegalArgumentException {
+        if (TextUtils.isEmpty(item.getName())) {
+            throw new IllegalArgumentException("GroceryItem name field cannot be empty.");
+        }
         System.out.println("Insert has been called...");
         ContentValues values = new ContentValues();
 
@@ -131,7 +135,11 @@ public class DataHandler {
                 values);                                    // The values being inserted
     }
 
-    public boolean updateGroceryItem(String oldItem, GroceryItem newItem) {
+    public boolean updateGroceryItem(String oldItem, GroceryItem newItem)
+            throws IllegalArgumentException {
+        if (newItem.getName().isEmpty()) {
+            throw new IllegalArgumentException("GroceryItem name field cannot be empty.");
+        }
         System.out.println("Updating," + oldItem + newItem.getName() + newItem.getNote());
         ContentValues values = new ContentValues();
 
