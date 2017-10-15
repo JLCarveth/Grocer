@@ -62,6 +62,10 @@ public class DataHandler {
         return data;
     }
 
+    public void clearGroceryList() {
+        databaseWritable.delete(GroceryContract.GroceryEntry.TABLE_NAME, null, null);
+    }
+
     /**
      * Helpful method for inserting a List into the DB
      * @param data the data to be inserted into the DB
@@ -163,8 +167,6 @@ public class DataHandler {
         if (data.isEmpty()) {
             return data;
         }
-        System.out.println("Sorting Called.");
-        System.out.println("Before Sort: " + data.toString());
 
         for (int i=0; i < data.size(); i++) {
             GroceryItem item = data.get(i);
@@ -178,7 +180,6 @@ public class DataHandler {
         //Temp to clear errors
         Collections.sort(data);
 
-        System.out.println("After Sort: " + data.toString());
         return data;
     }
 
