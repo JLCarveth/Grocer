@@ -20,11 +20,11 @@ import com.github.jlcarveth.grocer.model.GroceryItem;
 import com.github.jlcarveth.grocer.util.DataHandler;
 import com.github.jlcarveth.grocer.util.StorageHandler;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GroceryFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        GroceryFragment.OnListFragmentInteractionListener {
 
     /**
      * Fragment Manager
