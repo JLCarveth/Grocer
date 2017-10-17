@@ -5,6 +5,7 @@
 - [ ] Add quantity to item layout.
 - [ ] Move FAB so it doesn't block checkbox of bottom list items. (Setting for position maybe?)
 - [ ] Move sort button from menu to own button in ActionBar / Toolbar (Button triggers dropdown of sort-types)
+- [ ] Add instructional background if grocery list is empty.
 
 ### Functional Changes
 - [x] Disable long press to drag in favor of a long press action to trigger a Fragment where the user can edit the entry.
