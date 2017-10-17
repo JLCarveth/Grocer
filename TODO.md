@@ -15,6 +15,10 @@
 - [ ] Establish the Settings Fragment (See section below)
 - [ ] Add bug reporter to option menu - Opens new fragment
 - [ ] Add a help menu to the option menu - Opens new fragment
+
+### Authentication and Firebase
+- [ ] Enable Firebase Authentication and Realtime Database. When a user logs in, they unlock the ability to store their lists in the cloud, as well as share their lists / recipes with other users.
+- [ ] Login / Logoff button on Navigation Panel as well as Settings Fragment
   
     
   
@@ -26,3 +30,4 @@
 | ------------ | --------------- | -------- | ----- |
 | pref_enable_loc | CheckBoxPreference | N/A | When enabled, allows location services. Used for quick launching if at grocery store. |
 | pref_enable_clear_checked | CheckboxPreference | N/A | When enabled, deletes checked entries on reload / sort. |
+| pref_logon | Preference | N/A | Logon / Logoff button. Allows the user to share lists and store them on the cloud. |
