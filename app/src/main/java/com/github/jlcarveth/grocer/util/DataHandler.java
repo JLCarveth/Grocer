@@ -181,8 +181,8 @@ public class DataHandler {
             GroceryItem item = data.get(i);
 
             if (item.isChecked()) {
-                data.remove(i);
                 removeEntry(item);
+                data.remove(i);
             }
         }
 
