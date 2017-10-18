@@ -1,21 +1,15 @@
 package com.github.jlcarveth.grocer.layout;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
+import android.app.DialogFragment;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.github.jlcarveth.grocer.R;
-import com.github.jlcarveth.grocer.model.GroceryItem;
 import com.github.jlcarveth.grocer.util.DataHandler;
 import com.github.jlcarveth.grocer.util.FragmentEventListener;
 import com.github.jlcarveth.grocer.util.StorageHandler;
@@ -44,14 +38,14 @@ public class InputDialogFragment extends DialogFragment {
 
         // Attaches the Fragment event listener to the Dialog
         fragmentEventListener = (FragmentEventListener) getActivity()
-                .getSupportFragmentManager()
+                .getFragmentManager()
                 .findFragmentByTag("GROCERY");
 
         nameField = view.findViewById(R.id.ad_name_input);
         noteField = view.findViewById(R.id.ad_note_input);
         qtyField = view.findViewById(R.id.ad_qty_input);
 
-        storageHandler = new StorageHandler(getContext());
+        storageHandler = new StorageHandler(view.getContext());
         dataHandler = new DataHandler(storageHandler);
 
 

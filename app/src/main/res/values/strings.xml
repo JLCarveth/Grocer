@@ -23,4 +23,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pref_string_auth">Logging in allows you to share your grocery list with other users, as well as store all your data on the cloud.</string>
+    <string name="pref_string_summary_ecc">When selected, any items on your grocery list that are checked off will be removed on the next sort.</string>
+    <string name="pref_string_ecc">Delete Checked Items On Sort</string>
+    <string name="pref_string_app_settings">Application Settings</string>
 </resources>
