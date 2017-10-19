@@ -1,27 +1,14 @@
 package com.github.jlcarveth.grocer.layout;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.github.jlcarveth.grocer.R;
 import com.github.jlcarveth.grocer.model.GroceryItem;
 import com.github.jlcarveth.grocer.util.DataHandler;
 import com.github.jlcarveth.grocer.util.FragmentEventListener;
-import com.github.jlcarveth.grocer.util.StorageHandler;
-
-import junit.framework.Test;
-
-import org.w3c.dom.Text;
 
 /**
  * DialogFragment for handling user input to the DB

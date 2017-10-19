@@ -3,7 +3,7 @@ package com.github.jlcarveth.grocer.layout;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -86,14 +86,6 @@ public class GroceryFragment extends Fragment implements FragmentEventListener, 
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        storageHandler = new StorageHandler(getContext());
-        dataHandler = new DataHandler(storageHandler);
-
-        dataset = new LinkedList<GroceryItem>();
-
-        // Fill the dataset with db data
-        dataset = dataHandler.getGroceryList();
-
     }
 
     @Override
@@ -105,6 +97,13 @@ public class GroceryFragment extends Fragment implements FragmentEventListener, 
         Context context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.item);
 
+        storageHandler = new StorageHandler(context);
+        dataHandler = new DataHandler(storageHandler);
+
+        dataset = new LinkedList<GroceryItem>();
+
+        // Fill the dataset with db data
+        dataset = dataHandler.getGroceryList();
 
         if (mColumnCount <= 1) {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));

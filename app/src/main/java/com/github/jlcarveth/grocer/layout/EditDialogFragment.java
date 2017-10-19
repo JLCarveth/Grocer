@@ -1,23 +1,13 @@
 package com.github.jlcarveth.grocer.layout;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.AlertDialog;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.github.jlcarveth.grocer.R;
 import com.github.jlcarveth.grocer.model.GroceryItem;
 import com.github.jlcarveth.grocer.util.DataHandler;
 import com.github.jlcarveth.grocer.util.FragmentEventListener;
-import com.github.jlcarveth.grocer.util.StorageHandler;
 
 /**
  * Similar to the AddDialogFragment. Presents a dialog to the user allowing them to edit the

@@ -1,9 +1,10 @@
 package com.github.jlcarveth.grocer;
 
-import android.support.v4.app.Fragment;
+import android.net.Uri;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 
 import com.github.jlcarveth.grocer.layout.AddDialogFragment;
 import com.github.jlcarveth.grocer.layout.GroceryFragment;
+import com.github.jlcarveth.grocer.layout.SettingsFragment;
 import com.github.jlcarveth.grocer.model.GroceryItem;
 import com.github.jlcarveth.grocer.util.DataHandler;
 import com.github.jlcarveth.grocer.util.StorageHandler;
@@ -24,12 +26,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        GroceryFragment.OnListFragmentInteractionListener {
+        GroceryFragment.OnListFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener {
 
     /**
      * Fragment Manager
      */
-    FragmentManager fm = getSupportFragmentManager();
+    FragmentManager fm = getFragmentManager();
 
     /**
      * StorageHandler - Needed to initialize the DataHandler
@@ -48,7 +51,9 @@ public class MainActivity extends AppCompatActivity
     public enum FragmentType {
         GROCERY("GROCERY"),
         RECIPE("RECIPE"),
-        ADD_DIALOG("ADD_DIAG");
+        ADD_DIALOG("ADD_DIAG"),
+        EDIT_DIALOG("EDIT_DIAG"),
+        SETTINGS("SETTINGS");
 
         private final String tag;
 
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity
             return tag;
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            setFragment(FragmentType.SETTINGS);
         } else if (id == R.id.action_sort) {
             List list = dataHandler.getGroceryList();
 
@@ -179,7 +185,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_grocery_list) {
-
+            setFragment(FragmentType.GROCERY);
         } else if (id == R.id.nav_recipes) {
 
         }
@@ -190,29 +196,54 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void setFragment(FragmentType ft) {
-        Fragment fragment = null;
+        Object fragment = null;
         String tag = "";
         switch (ft) {
             case GROCERY:
                 fragment = new GroceryFragment();
-                tag = "GROCERY";
+                tag = FragmentType.GROCERY.getTag();
                 break;
             case RECIPE:
                 // Do nothing right now, no recipe fragment created yet
-                tag = "RECIPE";
+                tag = FragmentType.RECIPE.getTag();
                 break;
             case ADD_DIALOG:
                 // Inflate the DialogFragment
-                tag = "ADD_DIAG";
+                tag = FragmentType.ADD_DIALOG.getTag();
                 fragment = new AddDialogFragment();
+                break;
+            case SETTINGS:
+                tag = FragmentType.SETTINGS.getTag();
+                fragment = new SettingsFragment();
+                break;
             default:
+                fragment = null;
                 return;
         }
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, fragment, tag)
-                .addToBackStack(null)
-                .commit();
+        // This should work for the different Fragments being implemented
+        // ONly necessary due to PreferenceFragment being used for settings
+        if (fragment instanceof android.support.v4.app.Fragment) {
+            fm.beginTransaction()
+                    .replace(R.id.content, (Fragment) fragment, tag)
+                    .addToBackStack(null)
+                    .commit();
+        } else if (fragment instanceof  android.app.Fragment) {
+            fm.beginTransaction()
+                    .replace(R.id.content, (android.app.Fragment) fragment, tag)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 
     /**
