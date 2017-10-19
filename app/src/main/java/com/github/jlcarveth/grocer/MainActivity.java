@@ -222,18 +222,18 @@ public class MainActivity extends AppCompatActivity
         }
 
         // This should work for the different Fragments being implemented
+        // ONly necessary due to PreferenceFragment being used for settings
         if (fragment instanceof android.support.v4.app.Fragment) {
             fm.beginTransaction()
                     .replace(R.id.content, (Fragment) fragment, tag)
                     .addToBackStack(null)
                     .commit();
         } else if (fragment instanceof  android.app.Fragment) {
-            getFragmentManager().beginTransaction()
+            fm.beginTransaction()
                     .replace(R.id.content, (android.app.Fragment) fragment, tag)
                     .addToBackStack(null)
                     .commit();
         }
-
     }
 
     @Override

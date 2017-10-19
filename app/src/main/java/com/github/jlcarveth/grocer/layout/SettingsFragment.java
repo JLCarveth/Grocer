@@ -1,6 +1,7 @@
 package com.github.jlcarveth.grocer.layout;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -13,9 +14,16 @@ import com.github.jlcarveth.grocer.R;
 /**
  * SettingsFragment
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private OnFragmentInteractionListener mListener;
+
+    /**
+     * Final values representing preference keys
+     */
+    public static final String KEY_PREF_AUTH = "pref_auth";
+    public static final String KEY_PREF_ECC = "pref_enable_clear_checked";
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -64,6 +72,36 @@ public class SettingsFragment extends PreferenceFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    /**
+     * Hook method called whenever a change is detected in the settings.
+     * @param sharedPreferences
+     * @param key
+     */
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(KEY_PREF_AUTH)) {
+            System.out.println("Auth pref changed...");
+        }
+
+        if (key.equals(KEY_PREF_ECC)) {
+            System.out.println("ECC changed.");
+        }
     }
 
     /**
