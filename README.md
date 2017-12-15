@@ -1,2 +1,3 @@
 # Grocer
-Grocery list app.
+Grocery list app. OLD
+New version is private ;)
